@@ -9,6 +9,8 @@ namespace Enemy
         public Vector2 speed;
         public Vector2 speedRange;
 
+        public float rotation;
+
         public bool isCounted = false;
         
         // Use this for initialization
@@ -22,6 +24,7 @@ namespace Enemy
             }
             speed = new Vector2(sx, sy);
             GetComponent<Rigidbody2D>().AddForce(speed);
+            GetComponent<Rigidbody2D>().AddTorque(rotation);
         }
 
         // Update is called once per frame

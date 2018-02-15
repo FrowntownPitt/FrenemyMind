@@ -84,6 +84,13 @@ namespace Player
                 GetComponent<HealthController>().HitObject(HealthController.Types.enemyBullet);
             }
 
+            if (other.gameObject.CompareTag("asteroid"))
+            {
+                Debug.Log("Collided with enemy asteroid!");
+                other.GetComponent<Enemy.Death>().Die();
+                GetComponent<HealthController>().HitObject(HealthController.Types.asteroid);
+            }
+
             if (other.gameObject.CompareTag("boundary"))
             {
                 if (other.gameObject.name.Equals("top"))
