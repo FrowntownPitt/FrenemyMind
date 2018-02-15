@@ -42,7 +42,7 @@ namespace Player
             SetHealth(healthAmt - HealthVals[(int)type]);
             if(healthAmt <= 0)
             {
-                FindObjectOfType<GC.GameController>().Die();
+                FindObjectOfType<GC.LevelController>().Die();
                 GetComponent<Death>().Die();
             }
         }

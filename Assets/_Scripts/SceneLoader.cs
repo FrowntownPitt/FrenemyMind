@@ -8,6 +8,8 @@ namespace GC {
 
         public List<GameObject> keepObjects;
 
+        public string activeScene;
+
         // Use this for initialization
         void Start() {
 
@@ -18,9 +20,11 @@ namespace GC {
 
         }
 
-        public void LoadScene(string name)
+        public void DisableSceneElements()
         {
-            GameObject[] objects = FindObjectsOfType<GameObject>() as GameObject[];
+            //GameObject[] objects = FindObjectsOfType<GameObject>() as GameObject[];
+            Scene s = SceneManager.GetSceneByName("Main");
+            GameObject[] objects = s.GetRootGameObjects();
 
             for(int i=0; i<objects.Length; i++)
             {
@@ -34,13 +38,23 @@ namespace GC {
                 }
             }
 
-            
+        }
+
+        public void LoadScene(string name)
+        {
+            activeScene = name;
             SceneManager.LoadScene(name, LoadSceneMode.Additive);
         }
 
         public void UnloadScene(string name)
         {
-            UnloadScene(name);
+            SceneManager.UnloadSceneAsync(name);
+        }
+
+        public void SwapScenes(string from, string to)
+        {
+            UnloadScene(from);
+            LoadScene(to);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Enemy
                 if (isCounted)
                 {
                     FindObjectOfType<GC.EnemySpawner>().Died();
-                    FindObjectOfType<GC.GameController>().EnemyEscaped();
+                    FindObjectOfType<GC.LevelController>().EnemyEscaped();
                 }
             }
         }

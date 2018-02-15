@@ -8,18 +8,18 @@ namespace Player
     {
         public BulletSpawner bulletSpawner;
 
-        public GC.GameController gameController;
+        public GC.LevelController LevelController;
 
         // Use this for initialization
         void Start()
         {
-            gameController = FindObjectOfType<GC.GameController>();
+            LevelController = FindObjectOfType<GC.LevelController>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (gameController.gameState == GC.GameController.GameState.playing)
+            if (LevelController.gameState == GC.LevelController.GameState.playing)
             {
                 if (Input.GetKey(KeyCode.Space))
                 {

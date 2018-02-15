@@ -39,7 +39,7 @@ namespace Enemy
                 previousSpawnTime = Time.time;
                 nextRandomTime = Random.Range(spawnrate - randomSpawnRange, spawnrate + randomSpawnRange);
                 //Transform t = ChooseSpawnTransform();
-                GameObject bullet = Instantiate(bulletPrefab);//, t.position, t.rotation);
+                GameObject bullet = Instantiate(bulletPrefab, GameObject.Find("InstantiateContainer").transform);//, t.position, t.rotation);
                 ChooseSpawnTransform(bullet.transform);
 
                 Vector2 shipVelocity = GetComponent<Rigidbody2D>().velocity;

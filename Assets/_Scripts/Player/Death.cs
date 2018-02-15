@@ -10,17 +10,17 @@ namespace Player
         public float scaleFactor = .9f;
         public float torque;
 
-        GC.GameController gameController;
+        GC.LevelController LevelController;
 
         public void Start()
         {
-            gameController = FindObjectOfType<GC.GameController>();
+            LevelController = FindObjectOfType<GC.LevelController>();
         }
 
         public void Die()
         {
             GetComponent<HealthController>().PauseHealing();
-            gameController.Die();
+            LevelController.Die();
             StartCoroutine(DeathAnimation());
         }
 
@@ -37,7 +37,7 @@ namespace Player
 
             Destroy(gameObject);
 
-            gameController.EndLevel();
+            LevelController.EndLevel();
         }
     }
 }

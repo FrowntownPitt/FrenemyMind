@@ -7,7 +7,7 @@ namespace Player
     public class Movement : MonoBehaviour
     {
         GC.AudioController audioController;
-        GC.GameController gameController;
+        GC.LevelController LevelController;
 
         public float idleEngineLevel;
         public float activeEngineLevel;
@@ -23,7 +23,7 @@ namespace Player
         void Start()
         {
             audioController = FindObjectOfType<GC.AudioController>();
-            gameController = FindObjectOfType<GC.GameController>();
+            LevelController = FindObjectOfType<GC.LevelController>();
             rb = GetComponent<Rigidbody2D>();
 
             audioController.ToggleAudioContinuous(GC.AudioController.Sources.Movement, true);
@@ -41,7 +41,7 @@ namespace Player
 
         void FixedUpdate()
         {
-            if (gameController.gameState == GC.GameController.GameState.playing)
+            if (LevelController.gameState == GC.LevelController.GameState.playing)
             {
                 float moveH = Input.GetAxis("Horizontal");
                 float moveV = Input.GetAxis("Vertical");

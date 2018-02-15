@@ -58,7 +58,7 @@ namespace Player
         void Fire()
         {
             previousFire = Time.time;
-            GameObject bullet = Instantiate(bulletPrefab, spawner.position, spawner.rotation) as GameObject;
+            GameObject bullet = Instantiate(bulletPrefab, spawner.position, spawner.rotation, GameObject.Find("InstantiateContainer").transform) as GameObject;
             //Debug.Log("Current velocity: " + GetComponent<Rigidbody2D>().velocity);
             bullet.GetComponent<Rigidbody2D>().AddForce(BulletSpeed + bulletSpeedTweak * gameObject.GetComponent<Rigidbody2D>().velocity);
             SetAmmoText(--ammoAmt);

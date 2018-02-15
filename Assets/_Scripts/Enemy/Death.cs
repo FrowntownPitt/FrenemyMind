@@ -25,10 +25,10 @@ namespace Enemy
         // Use this for initialization
         void Start()
         {
-            GameObject ScoreControllerContainer = GameObject.FindWithTag("GameController");
+            //GameObject ScoreControllerContainer = GameObject.FindWithTag("LevelController");
             //Debug.Log(ScoreControllerContainer.name);
-            scoreController = ScoreControllerContainer.GetComponent<ScoreController>();
-            audioController = ScoreControllerContainer.GetComponent<AudioController>();
+            scoreController = FindObjectOfType<ScoreController>();
+            audioController = FindObjectOfType<AudioController>();
         }
 
         // Update is called once per frame

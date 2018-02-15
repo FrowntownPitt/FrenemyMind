@@ -11,7 +11,7 @@ namespace GC
 
         public GameObject SpawnLocation;
 
-        public GameController gameController;
+        public LevelController LevelController;
 
         public float previousSpawnTime;
 
@@ -35,6 +35,7 @@ namespace GC
             nextRandomTime = 0f;
 
             spawnCounter = 0;
+            LevelController = FindObjectOfType<LevelController>();
         }
 
         public int GetRemainingEnemies()
@@ -63,12 +64,12 @@ namespace GC
                 previousSpawnTime = Time.time;
                 nextRandomTime = Random.Range(spawnrate - randomSpawnRange, spawnrate + randomSpawnRange);
                 //Transform t = ChooseSpawnTransform();
-                GameObject enemy = Instantiate(enemyPrefab);//, t.position, t.rotation);
+                GameObject enemy = Instantiate(enemyPrefab, GameObject.Find("InstantiateContainer").transform);//, t.position, t.rotation);
                 ChooseSpawnTransform(enemy.transform);
             }
             if (spawnCounter >= spawnAmount && isSpawning)
             {
-                gameController.EndLevel();
+                LevelController.EndLevel();
                 //Debug.Log("Ending level");
                 isSpawning = false;
             }
