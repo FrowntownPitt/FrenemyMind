@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace Buttons
 {
+    // End screen's button handler
     public class Reset : MonoBehaviour
     {
 
@@ -16,15 +17,11 @@ namespace Buttons
             button.onClick.AddListener(OnClickListener);
         }
 
+        // When this button is clicked, return to the main scene
         void OnClickListener()
         {
+            // Load the scene as a single (reset the game controllers)
             SceneManager.LoadScene("Main");
-
-            //GC.SceneLoader sceneLoader = FindObjectOfType<GC.SceneLoader>();
-
-
-            //sceneLoader.DisableSceneElements();
-            //sceneLoader.LoadScene("Level1");
         }
 
     }

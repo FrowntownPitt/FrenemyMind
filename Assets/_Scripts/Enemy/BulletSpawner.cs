@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
+    // Enemy's random fire controller
     public class BulletSpawner : MonoBehaviour
     {
         GC.AudioController audioController;
@@ -33,6 +34,7 @@ namespace Enemy
         // Update is called once per frame
         void Update()
         {
+            // Randomly pick the next time it will fire, fire at that time
             if (Time.time - previousSpawnTime > nextRandomTime)
             {
                 //Debug.Log("Spawning");
@@ -44,6 +46,7 @@ namespace Enemy
 
                 Vector2 shipVelocity = GetComponent<Rigidbody2D>().velocity;
 
+                // Give the bullet the ship's velocity, and let the bullet handle its own forward force from there
                 bullet.GetComponent<Rigidbody2D>().velocity = shipVelocity;
                 //bullet.GetComponent<Rigidbody2D>().AddForce(bulletSpeed);
 

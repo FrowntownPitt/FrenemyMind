@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Player
 {
+    // Player's movement handler
     public class Movement : MonoBehaviour
     {
         GC.AudioController audioController;
@@ -26,21 +27,15 @@ namespace Player
             LevelController = FindObjectOfType<GC.LevelController>();
             rb = GetComponent<Rigidbody2D>();
 
+            // Enable engine rumble 
             audioController.ToggleAudioContinuous(GC.AudioController.Sources.Movement, true);
             audioController.PlayAudio(GC.AudioController.Sources.Movement);
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-            //if (Input.GetKeyDown(KeyCode.Q))
-            //{
-            //    GetComponent<Collider2D>().enabled = !GetComponent<Collider2D>().enabled;
-            //}
-        }
+        
 
         void FixedUpdate()
         {
+            // Move only while permitted
             if (LevelController.gameState == GC.LevelController.GameState.playing)
             {
                 float moveH = Input.GetAxis("Horizontal");
@@ -52,12 +47,14 @@ namespace Player
 
                 if (!isPlaying && (Mathf.Abs(moveH) > AxisDeadzone || Mathf.Abs(moveV) > AxisDeadzone))
                 {
+                    // When moving, boost the engine audio
                     //audioController.PlayAudio(GC.AudioController.Sources.Movement);
                     audioController.SetAudioVolume(GC.AudioController.Sources.Movement, activeEngineLevel);
                     isPlaying = true;
                 }
                 else if (isPlaying && (Mathf.Abs(moveH) <= AxisDeadzone && Mathf.Abs(moveV) <= AxisDeadzone))
                 {
+                    // Once no longer moving, reduce the engine audio
                     //audioController.StopAudio(GC.AudioController.Sources.Movement);
                     audioController.SetAudioVolume(GC.AudioController.Sources.Movement, idleEngineLevel);
                     isPlaying = false;
@@ -70,27 +67,37 @@ namespace Player
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            // On collision with enemy ship
             if (other.gameObject.CompareTag("enemy"))
             {
                 Debug.Log("Collided with enemy!");
+                // That ship must die
                 other.GetComponent<Enemy.Death>().Die();
+                // Update our health
                 GetComponent<HealthController>().HitObject(HealthController.Types.enemy);
             }
 
+            // On collision with an enemy bullet
             if (other.gameObject.CompareTag("bullet"))
             {
                 Debug.Log("Collided with enemy bullet!");
+                // That prefab must die
                 other.GetComponent<Enemy.Death>().Die();
+                // Update health
                 GetComponent<HealthController>().HitObject(HealthController.Types.enemyBullet);
             }
 
+            // On collision with asteroids
             if (other.gameObject.CompareTag("asteroid"))
             {
                 Debug.Log("Collided with enemy asteroid!");
+                // Kill the asteroid
                 other.GetComponent<Enemy.Death>().Die();
+                // Update our health
                 GetComponent<HealthController>().HitObject(HealthController.Types.asteroid);
             }
 
+            // When we hit a wall, bounce with 30% elasticity.
             if (other.gameObject.CompareTag("boundary"))
             {
                 if (other.gameObject.name.Equals("top"))

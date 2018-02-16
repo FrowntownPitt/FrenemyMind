@@ -4,11 +4,15 @@ using UnityEngine;
 
 namespace GC
 {
+    // Game Controller for the current level
     public class LevelController : MonoBehaviour
     {
+        // Allow the player to still continue even if a few enemies arent destroyed
         public int lossThreshold;
 
         public bool gameOver;
+
+        // There are certain states used to determine scene actions
         public enum GameState
         {
             playing,
@@ -17,22 +21,26 @@ namespace GC
             lost
         };
 
+        // We start the game as playing
         public GameState gameState = GameState.playing;
 
+        // Track the number of escaped enemies
         public int EscapedEnemies = 0;
 
+        // Public EndLevel() is called to end the current level.
         public void EndLevel()
         {
             Debug.Log("GameState: " + gameState);
-            //StartCoroutine(_EndLevel());
-            //StartCoroutine(WaitForShips());
+            // If player died then run the internal EndLevel() and signal it is game over
             if (gameState == GameState.died)
             {
                 StartCoroutine(_EndLevel());
                 gameOver = true;
             }
+            // If all of the enemies have been spawned then wait for them to leave/die
             else
             {
+                // Only call WaitForShips if the player hasn't died yet
                 if(!gameOver)
                     StartCoroutine(WaitForShips());
             }
@@ -40,11 +48,13 @@ namespace GC
             //Debug.Log("GC: Ending level");
         }
 
+        // Internal EndLevel()
         private IEnumerator _EndLevel()
         {
             Debug.Log("End of game");
             switch (gameState)
             {
+                // All ending cases.
                 case GameState.playing:
                     {
                         if (EscapedEnemies > lossThreshold)
@@ -72,7 +82,22 @@ namespace GC
                             GetComponent<EnemySpawner>().GetActiveEnemies() +
                             GetComponent<EnemySpawner>().GetRemainingEnemies()));
                         Debug.Log("Died");
-                        
+
+                        // If too many enemies escaped then they lose.
+                        if((EscapedEnemies +
+                            GetComponent<EnemySpawner>().GetActiveEnemies() +
+                            GetComponent<EnemySpawner>().GetRemainingEnemies()) > lossThreshold){
+                            gameState = GameState.lost;
+                        }
+                        else
+                        {
+                            // If they died but saved the Earth they still win
+                            if (FindObjectOfType<SceneLoader>().activeScene.Equals("Level2"))
+                                gameState = GameState.won;
+                            else
+                                gameState = GameState.lost;
+                        }
+
                         FindObjectOfType<GameController>().ChangeScene();
 
                         break;
@@ -106,6 +131,7 @@ namespace GC
             EscapedEnemies++;
         }
 
+        // Wait to end the scene until the ships are all destroyed or escape
         IEnumerator WaitForShips()
         {
             EnemySpawner spawner = FindObjectOfType<EnemySpawner>();

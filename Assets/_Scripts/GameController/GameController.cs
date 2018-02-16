@@ -5,20 +5,22 @@ using UnityEngine.SceneManagement;
 
 namespace GC
 {
+    // Persistent GameController
     public class GameController : MonoBehaviour
     {
-        public List<string> sceneNames;
-
         public bool won = false;
 
+        // Public facing scene change handler
         public void ChangeScene()
         {
+
             LevelController level = FindObjectOfType<LevelController>();
 
             switch (level.gameState)
             {
                 case LevelController.GameState.won:
                     {
+                        // Go from Main->Level1->Transition->Level2->End->Main
                         won = true;
                         if (FindObjectOfType<SceneLoader>().activeScene.Equals("Level1"))
                         {
@@ -34,6 +36,7 @@ namespace GC
                     }
                 case LevelController.GameState.lost:
                     {
+                        // If they lose (regardless of the scene) go to the end
                         won = false;
                         Debug.Log("Lost");
                         SceneLoader sceneLoader = FindObjectOfType<SceneLoader>();

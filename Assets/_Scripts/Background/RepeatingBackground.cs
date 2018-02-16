@@ -7,20 +7,18 @@ namespace Background
     public class RepeatingBackground : MonoBehaviour
     {
         public GameObject backgroundRoot;
-        //public GameObject backgroundNext;
         private float imageRoot;
-        //private float imageNext;
 
         public float imageSizeX = 19.2f;
 
         void Start()
         {
             imageRoot = backgroundRoot.transform.position.x;
-            //imageNext = backgroundNext.transform.position.x;
         }
 
         void Update()
         {
+            // Once out of the screen, place it where it started
             if(transform.position.x < imageRoot-imageSizeX )
             {
                 RepositionBackground();

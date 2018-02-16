@@ -5,19 +5,14 @@ using UnityEngine.UI;
 
 namespace Ending
 {
+    // End scene text handler
     public class EndText : MonoBehaviour
     {
         public Text text;
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
+        
         void Update()
         {
+            // Update the end scene's text
             if (FindObjectOfType<GC.GameController>().won)
             {
                 text.text = "You have saved Earth!";

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Buttons
 {
+    // Play button's handler
     public class Begin : MonoBehaviour
     {
 
@@ -17,6 +18,7 @@ namespace Buttons
 
         void OnClickListener()
         {
+            // Remove the start scene elements and load the Level1 Scene per GC.SceneLoader's policy
             GC.SceneLoader sceneLoader = FindObjectOfType<GC.SceneLoader>();
 
             sceneLoader.DisableSceneElements();
